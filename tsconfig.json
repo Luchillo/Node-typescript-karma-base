@@ -10,13 +10,19 @@
     "noEmit": true,
     "noEmitHelpers": true,
     "strictNullChecks": false,
+    "baseUrl": "./",
     "lib": [
       "dom",
       "es7"
     ],
+    "typeRoots": [
+      "./node_modules/@types"
+    ],
     "types": [
       "hammerjs",
+      "karma",
       "jasmine",
+      "karma-jasmine",
       "node",
       "core-js",
       "source-map",

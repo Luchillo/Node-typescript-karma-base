@@ -5,9 +5,9 @@ import * as Express from 'express';
 // Config
 const APP_PORT = 8080;
 
-const app = Express();
+export const app = Express();
 
-app.get('/', function (req, res) {
+app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 

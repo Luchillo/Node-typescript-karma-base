@@ -14,9 +14,14 @@
       "dom",
       "es5"
     ],
+    "typeRoots": [
+      "./node_modules/@types"
+    ],
     "types": [
       "hammerjs",
+      "karma",
       "jasmine",
+      "karma-jasmine",
       "node",
       "core-js",
       "source-map",

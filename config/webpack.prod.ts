@@ -5,8 +5,8 @@
 import * as webpack from 'webpack';
 import * as helpers from './helpers';
 import * as webpackMerge from 'webpack-merge';
+import commonConfig from './webpack.common'; // the settings that are common to prod and dev
 
-const commonConfig = require('./webpack.common'); // the settings that are common to prod and dev
 
 /**
  * Webpack Plugins
@@ -31,12 +31,10 @@ import * as OptimizeJsPlugin from 'optimize-js-plugin';
 const ENV = process.env.NODE_ENV = process.env.ENV = 'production';
 const HOST = process.env.HOST || 'localhost';
 const PORT = process.env.PORT || 8080;
-const METADATA = webpackMerge(commonConfig({
-  env: ENV
-}).metadata, {
+const METADATA = webpackMerge(commonConfig({ env: ENV })['metadata'], {
   host: HOST,
   port: PORT,
-  ENV: ENV,
+  ENV,
   HMR: false
 });
 
@@ -175,11 +173,11 @@ module.exports = function (options) {
         // comments: true, //debug
 
 
-        beautify: false, //prod
+        beautify: false, // prod
         comments: false,
         mangle: {
           screw_ie8: true
-        }, //prod
+        }, // prod
         compress: {
           screw_ie8: true,
           warnings: false,
@@ -224,4 +222,4 @@ module.exports = function (options) {
     }
 
   });
-}
+};

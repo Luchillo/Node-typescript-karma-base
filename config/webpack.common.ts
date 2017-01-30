@@ -37,21 +37,21 @@ const METADATA = {
 };
 
 let nodeModules = readdirSync('node_modules')
-.filter(x => {
-  let condition = ['.bin'].indexOf(x) === -1
+.filter((x) => {
+  let condition = ['.bin'].indexOf(x) === -1;
   return condition;
 })
-.reduce((modules, mod) =>{
-  modules[mod] = `commonjs ${mod}`
+.reduce((modules, mod) => {
+  modules[mod] = `commonjs ${mod}`;
   return modules;
-}, {})
+}, {});
 
 /*
  * Webpack configuration
  *
  * See: http://webpack.github.io/docs/configuration.html#cli
  */
-module.exports = function (options): webpack.Configuration {
+export default (options): webpack.Configuration => {
   let isProd = options.env === 'production';
   return {
 
@@ -62,7 +62,7 @@ module.exports = function (options): webpack.Configuration {
      *
      * See: http://webpack.github.io/docs/configuration.html#cache
      */
-    //cache: false,
+    // cache: false,
 
     /*
      * The entry point for the bundle
@@ -165,16 +165,17 @@ module.exports = function (options): webpack.Configuration {
        * Plugin: ForkCheckerPlugin
        * Description: Do type checking in a separate process, so webpack don't need to wait.
        *
-       * See: https://github.com/s-panferov/awesome-typescript-loader#forkchecker-boolean-defaultfalse
+       * See:
+       * https://github.com/s-panferov/awesome-typescript-loader#forkchecker-boolean-defaultfalse
        */
       new CheckerPlugin(),
 
       new IgnorePlugin(/\.(css|less)$/),
-      new BannerPlugin({
-        banner: 'require("source-map-support").install();',
-        raw: true,
-        entryOnly: false
-      }),
+      // new BannerPlugin({
+      //   banner: 'require("source-map-support").install();',
+      //   raw: true,
+      //   entryOnly: false,
+      // }),
       /*
        * Plugin: CommonsChunkPlugin
        * Description: Shares common code between the pages.

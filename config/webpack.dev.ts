@@ -5,10 +5,11 @@
 import * as webpack from 'webpack';
 import * as helpers from './helpers';
 import * as webpackMerge from 'webpack-merge';
+import commonConfig from './webpack.common'; // the settings that are common to prod and dev
+
 // import { DllBundlesPlugin } from 'webpack-dll-bundles-plugin';
 
 const webpackMergeDll = webpackMerge.strategy({plugins: 'replace'});
-const commonConfig = require('./webpack.common'); // the settings that are common to prod and dev
 
 /**
  * Webpack Plugins
@@ -28,8 +29,8 @@ const HMR = helpers.hasProcessFlag('hot');
 const METADATA = webpackMerge(commonConfig({env: ENV})['metadata'], {
   host: HOST,
   port: PORT,
-  ENV: ENV,
-  HMR: HMR
+  ENV,
+  HMR,
 });
 
 
@@ -39,7 +40,7 @@ const METADATA = webpackMerge(commonConfig({env: ENV})['metadata'], {
  * See: http://webpack.github.io/docs/configuration.html#cli
  */
 
-module.exports = function (options): webpack.Configuration {
+export default (options): webpack.Configuration => {
   return webpackMerge(commonConfig({env: ENV}), {
 
     /**
@@ -114,9 +115,9 @@ module.exports = function (options): webpack.Configuration {
         'ENV': JSON.stringify(METADATA.ENV),
         'HMR': METADATA.HMR,
         'process.env': {
-          'ENV': JSON.stringify(METADATA.ENV),
-          'NODE_ENV': JSON.stringify(METADATA.ENV),
-          'HMR': METADATA.HMR,
+          ENV: JSON.stringify(METADATA.ENV),
+          NODE_ENV: JSON.stringify(METADATA.ENV),
+          HMR: METADATA.HMR,
         }
       }),
 
@@ -202,4 +203,4 @@ module.exports = function (options): webpack.Configuration {
     }
 
   });
-}
+};
