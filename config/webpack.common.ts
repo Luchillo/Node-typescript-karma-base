@@ -121,7 +121,8 @@ export default (options): webpack.Configuration => {
             {
               loader: 'awesome-typescript-loader',
               options: {
-                configFileName: 'tsconfig.webpack.json'
+                configFileName:
+                  options.env === 'test' ? 'tsconfig.test.json' : 'tsconfig.webpack.json'
               }
             },
           ],

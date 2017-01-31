@@ -2,11 +2,12 @@
 // Generated on Mon Jan 30 2017 09:57:01 GMT-0500 (COT)
 
 
-import webpackConfig from './config/webpack.dev'; // the settings that are common to prod and dev
+import webpackConfig from './config/webpack.test'; // the settings that are common to prod and dev
 // import karma from 'karma';
 
-const fileGlob = 'src/**/*.spec.ts';
-const webpackEnv = { env: 'development' };
+const srcGlob = 'src/**/*!(*.spec|*.d|pollyfils).ts';
+const testGlob = 'src/**/*.spec.ts';
+const webpackEnv = { env: 'test' };
 
 export default (config) => {
   config.set({
@@ -14,6 +15,7 @@ export default (config) => {
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: '',
 
+    // Fix for typescript mime type to send ts files to browser for testing
     mime : {
       'text/x-typescript': [
         'ts',
@@ -23,11 +25,11 @@ export default (config) => {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['jasmine'],
+    frameworks: ['jasmine', 'source-map-support'],
 
     // list of files / patterns to load in the browser
     files: [
-      fileGlob
+      testGlob
     ],
 
     // list of files to exclude
@@ -37,19 +39,31 @@ export default (config) => {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      [fileGlob]: ['webpack'],
+      // [srcGlob]: [ 'webpack', 'sourcemap', 'coverage' ],
+      [testGlob]: [ 'webpack', 'sourcemap' ],
+      // [fileGlob]: [ 'webpack', 'sourcemap' ],
+      // [fileGlob]: [ 'webpack' ],
     },
 
-    // webpack: webpackConfig(webpackEnv),
+    webpack: webpackConfig(webpackEnv),
     // webpackMiddleware: {noInfo: true},
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
+    // reporters: ['progress'],
     reporters: ['progress', 'coverage'],
-    // coverageReporter: {
-
-    // },
+    coverageReporter: {
+      dir: 'coverage/',
+      instrumenterOptions: {
+        istanbul: { noCompact: true }
+      },
+      reporters: [
+        { type: 'lcov', subdir: '.' },
+        { type: 'json', subdir: '.' },
+        { type: 'text-summary' },
+      ],
+    },
 
     // web server port
     port: 9876,
@@ -64,14 +78,14 @@ export default (config) => {
       // config.LOG_WARN ||
       // config.LOG_INFO ||
       // config.LOG_DEBUG
-    logLevel: config.LOG_INFO,
+    logLevel: config.LOG_DEBUG,
 
     // enable / disable watching file and executing tests whenever any file changes
     autoWatch: false,
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Chrome'],
+    browsers: ['NodeWebkit'],
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits

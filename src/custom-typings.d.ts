@@ -1,5 +1,7 @@
 declare module '*';
 
+declare var ENV: string;
+
 // interface WebpackConfigOptions {
 //   mime: any;
 // }

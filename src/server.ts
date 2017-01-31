@@ -5,7 +5,7 @@ import * as Express from 'express';
 // Config
 const APP_PORT = 8080;
 
-export const app = Express();
+const app = Express();
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
@@ -19,4 +19,8 @@ console.log(Object.entries(Express));
 //   graphiql: true,
 // }));
 
+console.log('Env: ', ENV);
+
 app.listen(APP_PORT, () => console.log(`App listening on port ${APP_PORT}`));
+
+export default app;
