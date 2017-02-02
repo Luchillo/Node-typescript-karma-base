@@ -5,7 +5,7 @@
 import webpackConfig from './config/webpack.test'; // the settings that are common to prod and dev
 // import karma from 'karma';
 
-const srcGlob = 'src/**/*!(*.spec|*.d|pollyfils).ts';
+const srcGlob = 'src/**/!(*.spec|*.d).ts';
 const testGlob = 'src/**/*.spec.ts';
 const webpackEnv = { env: 'test' };
 
@@ -29,6 +29,8 @@ export default (config) => {
 
     // list of files / patterns to load in the browser
     files: [
+      // srcGlob,
+      // './node_modules/core-js/index.js',
       testGlob
     ],
 
@@ -40,23 +42,23 @@ export default (config) => {
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
       // [srcGlob]: [ 'webpack', 'sourcemap', 'coverage' ],
+      // './node_modules/core-js/index.js': [ 'webpack', ],
       [testGlob]: [ 'webpack', 'sourcemap' ],
-      // [fileGlob]: [ 'webpack', 'sourcemap' ],
-      // [fileGlob]: [ 'webpack' ],
     },
 
     webpack: webpackConfig(webpackEnv),
-    // webpackMiddleware: {noInfo: true},
+    webpackMiddleware: {noInfo: true},
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
     // reporters: ['progress'],
-    reporters: ['progress', 'coverage'],
+    // reporters: ['progress', 'notification', 'coverage', 'karma-remap-istanbul'],
+    reporters: ['progress', 'notification', 'coverage'],
     coverageReporter: {
       dir: 'coverage/',
       instrumenterOptions: {
-        istanbul: { noCompact: true }
+        istanbul: { noCompact: false }
       },
       reporters: [
         { type: 'lcov', subdir: '.' },
@@ -64,6 +66,11 @@ export default (config) => {
         { type: 'text-summary' },
       ],
     },
+    // remapIstanbulReporter: {
+    //   reports: {
+    //     html: 'coverage'
+    //   }
+    // },
 
     // web server port
     port: 9876,
@@ -78,7 +85,7 @@ export default (config) => {
       // config.LOG_WARN ||
       // config.LOG_INFO ||
       // config.LOG_DEBUG
-    logLevel: config.LOG_DEBUG,
+    logLevel: config.LOG_INFO,
 
     // enable / disable watching file and executing tests whenever any file changes
     autoWatch: false,

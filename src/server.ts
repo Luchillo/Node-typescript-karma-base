@@ -1,4 +1,5 @@
 import './polyfills';
+// import 'core-js';
 import * as Express from 'express';
 // import * as GraphHTTP from 'express-graphql';
 
@@ -11,7 +12,7 @@ app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 
-console.log(Object.entries(Express));
+// console.log(Object.entries(Express));
 
 // app.use('/graphql', GraphHTTP({
 //   schema: Schema,

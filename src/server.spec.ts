@@ -1,5 +1,4 @@
 // import * as app from './server';
-
 import app from './server';
 // tslint:disable-next-line:no-var-requires
 // const server = require('./server');
