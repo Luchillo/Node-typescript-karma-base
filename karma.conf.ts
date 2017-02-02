@@ -5,7 +5,7 @@
 import webpackConfig from './config/webpack.test'; // the settings that are common to prod and dev
 // import karma from 'karma';
 
-const srcGlob = 'src/**/*!(*.spec|*.d|pollyfils).ts';
+const srcGlob = 'src/**/!(*.spec|*.d).ts';
 const testGlob = 'src/**/*.spec.ts';
 const webpackEnv = { env: 'test' };
 
@@ -29,6 +29,8 @@ export default (config) => {
 
     // list of files / patterns to load in the browser
     files: [
+      srcGlob,
+      // './node_modules/core-js/index.js',
       testGlob
     ],
 
@@ -39,30 +41,30 @@ export default (config) => {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      // [srcGlob]: [ 'webpack', 'sourcemap', 'coverage' ],
+      [srcGlob]: [ 'webpack', 'sourcemap' ],
+      // './node_modules/core-js/index.js': [ 'webpack', ],
       [testGlob]: [ 'webpack', 'sourcemap' ],
-      // [fileGlob]: [ 'webpack', 'sourcemap' ],
-      // [fileGlob]: [ 'webpack' ],
     },
 
     webpack: webpackConfig(webpackEnv),
-    // webpackMiddleware: {noInfo: true},
+    webpackMiddleware: {noInfo: true},
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
     // reporters: ['progress'],
-    reporters: ['progress', 'coverage'],
-    coverageReporter: {
-      dir: 'coverage/',
-      instrumenterOptions: {
-        istanbul: { noCompact: true }
-      },
-      reporters: [
-        { type: 'lcov', subdir: '.' },
-        { type: 'json', subdir: '.' },
-        { type: 'text-summary' },
+    reporters: ['progress', 'notification', 'coverage-istanbul'],
+    coverageIstanbulReporter: {
+      /** Reports can be any that are listed here:
+       * https://github.com/istanbuljs/istanbul-reports/tree/master/lib
+       */
+      reports: [
+        'json-summary',
+        'lcov',
       ],
+      dir: './coverage', // output directory
+      // if using webpack and pre-loaders, work around webpack breaking the source path
+      fixWebpackSourcePaths: true
     },
 
     // web server port
@@ -78,7 +80,7 @@ export default (config) => {
       // config.LOG_WARN ||
       // config.LOG_INFO ||
       // config.LOG_DEBUG
-    logLevel: config.LOG_DEBUG,
+    logLevel: config.LOG_INFO,
 
     // enable / disable watching file and executing tests whenever any file changes
     autoWatch: false,
