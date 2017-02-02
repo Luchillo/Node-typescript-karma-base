@@ -12,7 +12,7 @@ app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 
-// console.log(Object.entries(Express));
+console.log(Object.entries(Express));
 
 // app.use('/graphql', GraphHTTP({
 //   schema: Schema,
