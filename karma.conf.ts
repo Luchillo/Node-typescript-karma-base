@@ -53,17 +53,32 @@ export default (config) => {
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
     // reporters: ['progress'],
-    reporters: ['progress', 'notification', 'coverage-istanbul'],
+    reporters: ['spec', 'notification', 'coverage-istanbul'],
+    specReporter: {
+      maxLogLines: 5,         // limit number of lines logged per test
+      suppressErrorSummary: true,  // do not print error summary
+      suppressFailed: false,  // do not print information about failed tests
+      suppressPassed: false,  // do not print information about passed tests
+      suppressSkipped: true,  // do not print information about skipped tests
+      showSpecTiming: true // print the time elapsed for each spec
+    },
     coverageIstanbulReporter: {
       /** Reports can be any that are listed here:
        * https://github.com/istanbuljs/istanbul-reports/tree/master/lib
        */
+      // tslint:disable-next-line:object-literal-key-quotes
       reports: [
         'json-summary',
         'lcov',
       ],
+      'report-config': {
+        html: { subdir: 'html' },
+        lcov: { subdir: 'lcov' },
+      },
+      // tslint:disable-next-line:object-literal-key-quotes
       dir: './coverage', // output directory
       // if using webpack and pre-loaders, work around webpack breaking the source path
+      // tslint:disable-next-line:object-literal-key-quotes
       fixWebpackSourcePaths: true
     },
 

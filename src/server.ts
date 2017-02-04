@@ -4,11 +4,15 @@ import * as Express from 'express';
 // import * as GraphHTTP from 'express-graphql';
 
 // Config
-const APP_PORT = 8080;
+export const APP_PORT = 8080;
 
-const app = Express();
+export const app = Express();
 
-app.get('/', (req, res) => {
+app.get('/', async (req, res) => {
+  console.log('Root request');
+  let body = await new Promise((resolve, reject) => {
+    setTimeout(() => resolve(req.body), 100);
+  });
   res.send('Hello World!');
 });
 
@@ -21,7 +25,7 @@ app.get('/', (req, res) => {
 // }));
 
 console.log('Env: ', ENV);
-
-app.listen(APP_PORT, () => console.log(`App listening on port ${APP_PORT}`));
-
-export default app;
+if (ENV === 'test') {
+  let server = app.listen(APP_PORT, () => console.log(`App listening on port ${APP_PORT}`));
+  // server.close();
+}
