@@ -46,7 +46,7 @@ export default (options): webpack.Configuration => {
   return webpackMergeTest(commonConfig({env: ENV}), {
 
     entry: {
-      server: './src/server.ts',
+      test: './src/server.ts',
       // test: './src/server.spec.ts',
     },
 
@@ -112,9 +112,9 @@ export default (options): webpack.Configuration => {
               }
             },
           ],
-          exclude: [
-            'node_modules'
-          ]
+          // exclude: [
+          //   'node_modules'
+          // ]
         },
         {
           enforce: 'post',
