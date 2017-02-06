@@ -24,7 +24,7 @@ describe('Root test', () => {
     server.destroy(done);
   });
   it('Should return http code 200', (done) => {
-    new Promise(async (resolve, reject) => {
+    (async () => {
       try {
         let resp = await fetch('http://localhost:8080');
         console.log('Fetch response obj: ', JSON.stringify(resp), null, 2);
@@ -32,13 +32,12 @@ describe('Root test', () => {
 
         let resp2 = await fetch('http://localhost:8080');
         console.log(JSON.stringify(resp2.headers), null, 2);
-        expect(resp2.status).toBe(250);
-        resolve(true);
+        expect(resp2.status).toBe(200);
+        done();
       } catch (err) {
         console.error(err);
-        resolve(err);
+        done();
       }
-    })
-    .then(() => done());
+    })();
   });
 });

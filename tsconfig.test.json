@@ -1,4 +1,6 @@
 {
   "extends": "./tsconfig.webpack.json",
-  "noEmitHelpers": false
+  "compilerOptions": {
+    "noEmitHelpers": false
+  }
 }

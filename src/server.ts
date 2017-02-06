@@ -16,7 +16,10 @@ app.get('/', async (req, res) => {
   res.send('Hello World!');
 });
 
-// console.log(Object.entries(Express));
+console.log(core.Object.entries({
+  a: 1,
+  b: [1, 3]
+}));
 
 // app.use('/graphql', GraphHTTP({
 //   schema: Schema,
@@ -25,7 +28,8 @@ app.get('/', async (req, res) => {
 // }));
 
 console.log('Env: ', ENV);
-if (ENV === 'test') {
+/* istanbul ignore if */
+if (ENV !== 'test') {
   let server = app.listen(APP_PORT, () => console.log(`App listening on port ${APP_PORT}`));
   // server.close();
 }

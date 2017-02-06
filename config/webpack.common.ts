@@ -23,6 +23,7 @@ import * as CleanWebpackPlugin from 'clean-webpack-plugin';
 const {
   IgnorePlugin,
   LoaderOptionsPlugin,
+  ProvidePlugin,
 } = webpack;
 
 const BannerPlugin: new (options: any) => Plugin = webpack.BannerPlugin as any;
@@ -177,6 +178,10 @@ export default (options): webpack.Configuration => {
       //   raw: true,
       //   entryOnly: false,
       // }),
+
+      new ProvidePlugin({
+        core: 'core-js',
+      }),
       /*
        * Plugin: CommonsChunkPlugin
        * Description: Shares common code between the pages.
